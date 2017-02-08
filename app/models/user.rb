@@ -64,7 +64,6 @@ class User < ActiveRecord::Base
     user
   end
 
-
   def displayName= name
     self.display_name = name
   end
