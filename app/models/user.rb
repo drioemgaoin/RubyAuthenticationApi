@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_secure_password
 
+  include DatabaseAuthenticatable
+
   def self.for_oauth oauth
     oauth.get_data
     data = oauth.data
