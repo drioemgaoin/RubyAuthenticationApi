@@ -20,13 +20,7 @@ class Authorization < ActiveRecord::Base
     user.save
   end
 
-  def fetch_details_from_linkedin
-  end
-
   def fetch_details_from_google_oauth2
-  end
-
-  def fetch_details_from_github
   end
 
 end

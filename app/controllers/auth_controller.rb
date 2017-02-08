@@ -12,14 +12,14 @@ class AuthController < ApplicationController
        'Sign-in'
      ]
      parameter do
-       key :name, :email
+       key :name, "user[email]"
        key :in, :formData
        key :description, 'User\'s email'
        key :required, true
        key :type, :string
      end
      parameter do
-       key :name, :password
+       key :name, "user[password]"
        key :in, :formData
        key :description, 'User\'s password'
        key :required, true
@@ -53,14 +53,14 @@ class AuthController < ApplicationController
        'Sign-up'
      ]
      parameter do
-       key :name, :email
+       key :name, "user[email]"
        key :in, :formData
        key :description, 'User\'s email'
        key :required, true
        key :type, :string
      end
      parameter do
-       key :name, :password
+       key :name, "user[password]"
        key :in, :formData
        key :description, 'User\'s password'
        key :required, true
@@ -68,7 +68,7 @@ class AuthController < ApplicationController
        key :format, :password
      end
      parameter do
-       key :name, :confirmation_password
+       key :name, "user[confirmation_password]"
        key :in, :formData
        key :description, 'User\'s confirmation password'
        key :required, true
@@ -108,14 +108,15 @@ class AuthController < ApplicationController
   end
 
   def sign_up
-    @user = User.create auth_params
+    @user = User.create sign_up_params
     render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_up") }
   end
 
   def sign_in
-    @user = User.find_by email: params[:email] if params[:email].present?
+    parameters = sign_in_params
+    @user = User.find_by email: parameters[:email] if parameters[:email].present?
 
-    if @user && @user.authenticate(params[:password])
+    if @user && @user.authenticate(parameters[:password])
       render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_in") }
     else
       render json: { code: 402, message: I18n.t("failure.signed_in_invalid") }, status: :unauthorized
@@ -137,7 +138,11 @@ class AuthController < ApplicationController
   end
 
   private
-    def auth_params
-      params.require(:auth).permit(:email, :password, :confirmation_password)
+    def sign_in_params
+      params.require(:user).permit(:email, :password)
+    end
+
+    def sign_up_params
+      params.require(:user).permit(:email, :password)
     end
 end
