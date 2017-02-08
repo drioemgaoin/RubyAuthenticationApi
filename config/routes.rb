@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  post :login, to: 'auth#login'
-  post :signup, to: 'auth#signup'
-  post '/:provider',      to: 'auth#authenticate'
+  post :sign_in, to: 'auth#sign_in'
+  post :sign_up, to: 'auth#sign_up'
+  post '/:provider', to: 'auth#authenticate'
+
+  get '/api' => redirect('/swagger/dist/index.html?url=/apidocs')
+  resources :apidocs, only: [:index]
 end

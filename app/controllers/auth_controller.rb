@@ -1,11 +1,102 @@
 class AuthController < ApplicationController
+  include Swagger::Blocks
+
+  swagger_path '/sign_in' do
+   operation :post do
+     key :description, 'Sign-in the user'
+     key :operationId, 'signIn'
+     key :produces, [
+        'application/json'
+      ]
+     key :tags, [
+       'Sign-in'
+     ]
+     parameter do
+       key :name, :email
+       key :in, :formData
+       key :description, 'User\'s email'
+       key :required, true
+       key :type, :string
+     end
+     parameter do
+       key :name, :password
+       key :in, :formData
+       key :description, 'User\'s password'
+       key :required, true
+       key :type, :string
+       key :format, :password
+     end
+     response 200 do
+       key :description, 'sign-in response'
+       schema do
+         key :token, :string
+         key :message, :string
+       end
+     end
+     response :default do
+       key :description, 'unexpected error'
+       schema do
+         key :'$ref', :ErrorModel
+       end
+     end
+   end
+  end
+
+  swagger_path '/sign_up' do
+   operation :post do
+     key :description, 'Sign-up the user'
+     key :operationId, 'signUp'
+     key :produces, [
+        'application/json'
+     ]
+     key :tags, [
+       'Sign-up'
+     ]
+     parameter do
+       key :name, :email
+       key :in, :formData
+       key :description, 'User\'s email'
+       key :required, true
+       key :type, :string
+     end
+     parameter do
+       key :name, :password
+       key :in, :formData
+       key :description, 'User\'s password'
+       key :required, true
+       key :type, :string
+       key :format, :password
+     end
+     parameter do
+       key :name, :confirmation_password
+       key :in, :formData
+       key :description, 'User\'s confirmation password'
+       key :required, true
+       key :type, :string
+       key :format, :password
+     end
+     response 200 do
+       key :description, 'sign-up response'
+       schema do
+         key :token, :string
+         key :message, :string
+       end
+     end
+     response :default do
+       key :description, 'unexpected error'
+       schema do
+         key :'$ref', :ErrorModel
+       end
+     end
+   end
+  end
 
   def render_data(data, status)
     render json: data, status: status, callback: params[:callback]
   end
 
   def render_error(message, status = :unprocessable_entity)
-    render_data({ error: message }, status)
+    render_data({ code: 402, error: message }, status)
   end
 
   def render_success(data, status = :ok)
@@ -16,18 +107,18 @@ class AuthController < ApplicationController
     end
   end
 
-  def signup
+  def sign_up
     @user = User.create auth_params
-    render json: { token: Token.encode(@user.id), message: message: I18n.t("authentication.signed_up") }
+    render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_up") }
   end
 
-  def login
+  def sign_in
     @user = User.find_by email: params[:email] if params[:email].present?
 
     if @user && @user.authenticate(params[:password])
       render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_in") }
     else
-      render json: { message: I18n.t("failure.signed_in_invalid") }, status: :unauthorized
+      render json: { code: 402, message: I18n.t("failure.signed_in_invalid") }, status: :unauthorized
     end
   end
 
@@ -47,6 +138,6 @@ class AuthController < ApplicationController
 
   private
     def auth_params
-      params.require(:auth).permit(:email, :password, :displayName)
+      params.require(:auth).permit(:email, :password, :confirmation_password)
     end
 end
