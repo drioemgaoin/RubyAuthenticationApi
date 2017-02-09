@@ -1,4 +1,12 @@
 en:
+  errors:
+    messages:
+      email_is_required: "Email is required"
+      bad_format_email: "Email is invalid"
+      unique_email: "Email is already used"
+      password_is_required: "Password is required"
+      confirmation_password_not_match: "Password confirmation does not match password"
+      bad_length_password: "Password's length must be between 6 and 128 caracters"
   failure:
     signed_in_invalid: "Invalid email and/or password"
     account_already_used: "This $%{provider} account is used already"
