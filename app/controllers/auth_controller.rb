@@ -68,7 +68,7 @@ class AuthController < ApplicationController
        key :format, :password
      end
      parameter do
-       key :name, "user[confirmation_password]"
+       key :name, "user[password_confirmation]"
        key :in, :formData
        key :description, 'User\'s confirmation password'
        key :required, true

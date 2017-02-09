@@ -72,23 +72,13 @@ module DatabaseAuthenticatable
     encrypted_password[0,29] if encrypted_password
   end
 
-  def send_password_change_notification
-    # send_devise_notification(:password_change)
-  end
-
 protected
+
   def password_digest(password)
     Encryptor.digest(self.class, password)
   end
 
-  def send_password_change_notification?
-    false
-    # self.class.send_password_change_notification && encrypted_password_changed?
-  end
-
   module ClassMethods
-    # Devise::Models.config(self, :pepper, :stretches, :send_password_change_notification)
-
     def find_for_database_authentication(conditions)
       find_for_authentication(conditions)
     end

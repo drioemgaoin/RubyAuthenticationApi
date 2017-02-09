@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
-  has_secure_password
-
   include DatabaseAuthenticatable
+  # include Validatable
 
   def self.for_oauth oauth
     oauth.get_data
@@ -64,6 +63,58 @@ class User < ActiveRecord::Base
     authorization.user_id ||= user.id
     authorization.save
     user
+  end
+
+  # Set up a pepper to generate the encrypted password.
+  def self.pepper
+    if defined?(@pepper)
+      @pepper
+    else
+      '5a6612015d14f8becbbdcee58376ad8332a25cdbb787214de22cd7d0aa0f0195ea37b52d1355978fd834f144002f8d7f4b6f795dc41265acbd078776cf2674aa'
+    end
+  end
+
+  def self.pepper=(value)
+    @pepper = value
+  end
+
+  # The number of times to hash the password.
+  def self.stretches
+    if defined?(@stretches)
+      @stretches
+    else
+      11
+    end
+  end
+
+  def self.stretches=(value)
+    @stretches = value
+  end
+
+  # Range validation for password length
+  def self.password_length
+    if defined?(@password_length)
+      @password_length
+    else
+      6..128
+    end
+  end
+
+  def self.password_length=(value)
+    @password_length = value
+  end
+
+  # Regex to use to validate the email address
+  def self.password_length
+    if defined?(@email_regexp)
+      @email_regexp
+    else
+      /\A[^@\s]+@[^@\s]+\z/
+    end
+  end
+
+  def self.email_regexp=(value)
+    @email_regexp = value
   end
 
   def displayName= name
