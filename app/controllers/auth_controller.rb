@@ -113,7 +113,7 @@ class AuthController < ApplicationController
     if @user.persisted?
       render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_up") }
     else
-      render json: { code: 402, message: I18n.t("failure.validation_failed") }, status: :unprocessable_entity
+      render json: { errors: @user.full_errors }, status: :unprocessable_entity
     end
   end
 
@@ -124,7 +124,7 @@ class AuthController < ApplicationController
     if @user && @user.authenticate(parameters[:password])
       render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_in") }
     else
-      render json: { code: 402, message: I18n.t("failure.signed_in_invalid") }, status: :unprocessable_entity
+      render json: { errors: @user.full_errors }, status: :unprocessable_entity
     end
   end
 

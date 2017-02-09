@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
     user
   end
 
+  def full_errors
+    errors.map { |k, v| v }
+  end
+
   # Set up a pepper to generate the encrypted password.
   def self.pepper
     if defined?(@pepper)
