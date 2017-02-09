@@ -95,8 +95,8 @@ class AuthController < ApplicationController
     render json: data, status: status, callback: params[:callback]
   end
 
-  def render_error(message, status = :unprocessable_entity)
-    render_data({ code: 402, error: message }, status)
+  def render_error(errors, status = :unprocessable_entity)
+    render_data({ errors: errors }, status)
   end
 
   def render_success(data, status = :ok)
@@ -113,7 +113,7 @@ class AuthController < ApplicationController
     if @user.persisted?
       render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_up") }
     else
-      render json: { errors: @user.full_errors }, status: :unprocessable_entity
+      render_error @user.full_errors, :unprocessable_entity
     end
   end
 
@@ -121,10 +121,10 @@ class AuthController < ApplicationController
     parameters = sign_in_params
     @user = User.find_by email: parameters[:email] if parameters[:email].present?
 
-    if @user && @user.authenticate(parameters[:password])
+    if @user && @user.valid_password?(parameters[:password])
       render json: { token: Token.encode(@user.id), message: I18n.t("authentication.signed_in") }
     else
-      render json: { errors: @user.full_errors }, status: :unprocessable_entity
+      render_error I18n.t("failure.signed_in_invalid"), :unprocessable_entity
     end
   end
 
