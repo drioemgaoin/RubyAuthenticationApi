@@ -3,6 +3,7 @@ en:
     signed_in_invalid: "Invalid email and/or password"
     account_already_used: "This $%{provider} account is used already"
     signed_in_failure:  "There was an error with $%{provider}. please try again."
+    validation_failed: "Validation(s) failed"
   authentication:
     signed_in: "Signed in successfully."
     signed_out: "Signed out successfully."

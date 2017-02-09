@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   include DatabaseAuthenticatable
-  # include Validatable
+  include Validatable
 
   def self.for_oauth oauth
     oauth.get_data
