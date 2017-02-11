@@ -91,6 +91,40 @@ class AuthController < ApplicationController
    end
   end
 
+  swagger_path '/facebook' do
+   operation :post do
+     key :description, 'Sign-in the user via facebook'
+     key :operationId, 'signInFacebook'
+     key :produces, [
+        'application/json'
+     ]
+     key :tags, [
+       'Sign-in'
+     ]
+     parameter do
+       key :name, "access_token"
+       key :in, :formData
+       key :description, 'Access token'
+       key :required, true
+       key :type, :string
+       key :format, :string
+     end
+     response 200 do
+       key :description, 'sign-in via facebook response'
+       schema do
+         key :token, :string
+         key :message, :string
+       end
+     end
+     response :default do
+       key :description, 'unexpected error'
+       schema do
+         key :'$ref', :ErrorModel
+       end
+     end
+   end
+  end
+
   def render_data(data, status)
     render json: data, status: status, callback: params[:callback]
   end

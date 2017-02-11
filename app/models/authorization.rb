@@ -4,7 +4,6 @@ class Authorization < ActiveRecord::Base
   validates_uniqueness_of :uid, scope: :provider
 
   scope :facebook, lambda { find_by(provider: 'facebook') }
-  # after_create :fetch_details
 
   def fetch_details
     self.send("fetch_details_from_#{self.provider.downcase}")
@@ -14,8 +13,9 @@ class Authorization < ActiveRecord::Base
     graph = Koala::Facebook::API.new(self.token)
     profile = graph.get_object("me")
     user = self.user
-    user.update_attributes(first_name: profile['first_name'], last_name: profile['last_name'],
-                            address: profile["location"]["name"])
+    user.update_attributes(first_name: profile['first_name'],
+                           last_name: profile['last_name'],
+                           address: profile["location"]["name"])
 
     user.save
   end

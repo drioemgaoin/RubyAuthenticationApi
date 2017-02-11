@@ -4,7 +4,8 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
-      t.string :display_name
+      t.string :first_name
+      t.string :last_name
       t.string :facebook
       t.string :google
 
