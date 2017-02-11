@@ -32,6 +32,14 @@ gem 'figaro'
 # Documentation
 gem 'swagger-blocks'
 
+# Upload images (avatar)
+gem 'carrierwave'
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+gem 'mini_magick'
+
+# Cloud storage
+gem "fog-dropbox", :git => 'https://github.com/fog/fog-dropbox.git'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

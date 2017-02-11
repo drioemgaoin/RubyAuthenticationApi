@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/fog/fog-dropbox.git
+  revision: 0df6615bdf1d58c834b1545d216da3ef08bd12a3
+  specs:
+    fog-dropbox (0.0.1)
+      dropbox-sdk
+      fog-core
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -47,15 +55,28 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
     byebug (9.0.6)
+    carrierwave (1.0.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     concurrent-ruby (1.0.4)
     debug_inspector (0.0.2)
+    dropbox-sdk (1.6.5)
+      json
     erubis (2.7.0)
+    excon (0.55.0)
     figaro (1.1.1)
       thor (~> 0.14)
+    fog-core (1.43.0)
+      builder
+      excon (~> 0.49)
+      formatador (~> 0.2)
+    formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     httpclient (2.8.3)
     i18n (0.8.0)
+    json (2.0.3)
     jwt (1.5.6)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -65,6 +86,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mini_magick (4.6.0)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     nio4r (1.2.1)
@@ -138,9 +160,12 @@ DEPENDENCIES
   active_model_serializers (~> 0.8.2)
   bcrypt (~> 3.1.7)
   byebug
+  carrierwave
   figaro
+  fog-dropbox!
   httpclient
   jwt
+  mini_magick
   puma (~> 3.0)
   rack-cors
   rails (~> 5.0.1)

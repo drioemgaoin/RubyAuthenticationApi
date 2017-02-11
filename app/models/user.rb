@@ -2,6 +2,11 @@ class User < ActiveRecord::Base
   include DatabaseAuthenticatable
   include Validatable
 
+  mount_uploader :avatar, AvatarUploader
+
+  validates_integrity_of  :avatar
+  validates_processing_of :avatar
+
   def self.for_oauth oauth
     oauth.get_data
     data = oauth.data
@@ -41,17 +46,15 @@ class User < ActiveRecord::Base
         user = User.new
       end
     end
-    authorization.secret = params[:secret]
-    authorization.token  = params[:token]
-    fallback_name        = params[:name].split(" ") if params[:name]
-    fallback_first_name  = fallback_name.try(:first)
-    fallback_last_name   = fallback_name.try(:last)
-    user.first_name    ||= (params[:first_name] || fallback_first_name)
-    user.last_name     ||= (params[:last_name]  || fallback_last_name)
-
-    # if user.image_url.blank?
-    #   user.image = Image.new(name: user.full_name, remote_file_url: params[:image_url])
-    # end
+    authorization.secret    = params[:secret]
+    authorization.token     = params[:token]
+    fallback_name           = params[:name].split(" ") if params[:name]
+    fallback_first_name     = fallback_name.try(:first)
+    fallback_last_name      = fallback_name.try(:last)
+    user.first_name       ||= (params[:first_name] || fallback_first_name)
+    user.last_name        ||= (params[:last_name]  || fallback_last_name)
+    user.provider           = params[:provider]
+    user.remote_avatar_url  = params[:image_url]
 
     user.password = Token.friendly_token[0,10] if user.encrypted_password.blank?
 
@@ -124,4 +127,9 @@ class User < ActiveRecord::Base
   def displayName= name
     self.display_name = name
   end
+
+  private
+    def avatar_size_validation
+      errors[:avatar] << "should be less than 500KB" if avatar.size > 0.5.megabytes
+    end
 end
