@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
+  puts Module.nesting
+  include Authenticatable
   include DatabaseAuthenticatable
+  include Recoverable
   include Validatable
 
   mount_uploader :avatar, AvatarUploader
@@ -124,9 +127,91 @@ class User < ActiveRecord::Base
     @email_regexp = value
   end
 
+  # Defines which key will be used when recovering the password for an account
+  def self.reset_password_keys
+    if defined?(@reset_password_keys)
+      @reset_password_keys
+    else
+      [:email]
+    end
+  end
+
+  def self.reset_password_keys=(value)
+    @reset_password_keys = value
+  end
+
+  # Time interval you can reset your password with a reset password key
+  def self.reset_password_within
+    if defined?(@reset_password_within)
+      @reset_password_within
+    else
+      6.hours
+    end
+  end
+
+  def self.reset_password_within=(value)
+    @reset_password_within = value
+  end
+
+  # When set to false, resetting a password does not automatically sign in a user
+  def self.sign_in_after_reset_password
+    if defined?(@sign_in_after_reset_password)
+      @sign_in_after_reset_password
+    else
+      true
+    end
+  end
+
+  def self.sign_in_after_reset_password=(value)
+    @sign_in_after_reset_password = value
+  end
+
+  # Keys that should be case-insensitive.
+  def self.case_insensitive_keys
+    if defined?(@case_insensitive_keys)
+      @case_insensitive_keys
+    else
+      [:email]
+    end
+  end
+
+  def self.case_insensitive_keys=(value)
+    @case_insensitive_keys = value
+  end
+
+  # Keys that should have whitespace stripped.
+  def self.strip_whitespace_keys
+    if defined?(@strip_whitespace_keys)
+      @strip_whitespace_keys
+    else
+      [:email]
+    end
+  end
+
+  def self.strip_whitespace_keys=(value)
+    @strip_whitespace_keys = value
+  end
+
+  def self.token_generator
+    if defined?(@token_generator)
+      @token_generator
+    else
+      Api::TokenGenerator.new(ActiveSupport::CachingKeyGenerator.new(ActiveSupport::KeyGenerator.new(ENV['TOKEN_SECRET'])))
+    end
+  end
+
+  def self.token_generator=(value)
+    @token_generator = value
+  end
+
   def displayName= name
     self.display_name = name
   end
+
+  protected
+    def parameter_filter
+      @parameter_filter ||= ParameterFilter.new(case_insensitive_keys, strip_whitespace_keys)
+    end
 
   private
     def avatar_size_validation

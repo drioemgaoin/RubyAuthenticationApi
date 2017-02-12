@@ -1,11 +1,8 @@
 class Token
-  JWT_SECRET = Rails.application.secrets.jwt_secret
-  JWT_ALGORITHM = Rails.application.secrets.jwt_algorithm
-
   attr_reader :user_id, :payload
 
   def initialize token
-    @payload = JWT.decode(token, JWT_SECRET, JWT_ALGORITHM).first.with_indifferent_access
+    @payload = JWT.decode(token, ENV['TOKEN_SECRET'], ENV['ALGORITHM']).first.with_indifferent_access
     @user_id = @payload[:user_id]
   end
 
@@ -14,12 +11,11 @@ class Token
   end
 
   def self.encode user_id
-    JWT.encode({ user_id: user_id, exp: (DateTime.now + 30).to_i }, JWT_SECRET, JWT_ALGORITHM)
+    JWT.encode({ user_id: user_id, exp: (DateTime.now + 30).to_i }, ENV['TOKEN_SECRET'], ENV['ALGORITHM'])
   end
 
   def self.friendly_token(length = 20)
     rlength = (length * 3) / 4
     SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
   end
-
 end
