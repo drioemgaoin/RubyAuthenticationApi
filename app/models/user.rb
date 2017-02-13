@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  puts Module.nesting
   include Authenticatable
   include DatabaseAuthenticatable
   include Recoverable
@@ -190,18 +189,6 @@ class User < ActiveRecord::Base
 
   def self.strip_whitespace_keys=(value)
     @strip_whitespace_keys = value
-  end
-
-  def self.token_generator
-    if defined?(@token_generator)
-      @token_generator
-    else
-      Api::TokenGenerator.new(ActiveSupport::CachingKeyGenerator.new(ActiveSupport::KeyGenerator.new(ENV['TOKEN_SECRET'])))
-    end
-  end
-
-  def self.token_generator=(value)
-    @token_generator = value
   end
 
   def displayName= name
