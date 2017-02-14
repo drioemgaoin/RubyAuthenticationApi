@@ -1,6 +1,6 @@
 require 'openssl'
 
-module Authentication
+module Api
   class TokenGenerator
     def initialize(key_generator, digest = "SHA256")
       @key_generator = key_generator
@@ -15,7 +15,7 @@ module Authentication
       key = key_for(column)
 
       loop do
-        raw = Token.friendly_token
+        raw = Api.friendly_token
         enc = OpenSSL::HMAC.hexdigest(@digest, key, raw)
         break [raw, enc] unless klass.to_adapter.find_first({ column => enc })
       end
@@ -24,10 +24,7 @@ module Authentication
     private
 
     def key_for(column)
-      @key_generator.generate_key("#{column}")
+      @key_generator.generate_key("Api #{column}")
     end
   end
-
-  mattr_accessor :token_generator
-  @@token_generator = TokenGenerator.new(ActiveSupport::CachingKeyGenerator.new(ActiveSupport::KeyGenerator.new(ENV['TOKEN_SECRET'])))
 end

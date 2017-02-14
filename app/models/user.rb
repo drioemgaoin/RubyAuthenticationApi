@@ -1,8 +1,5 @@
 class User < ActiveRecord::Base
-  include Authenticatable
-  include DatabaseAuthenticatable
-  include Recoverable
-  include Validatable
+  api :database_authenticatable, :recoverable, :validatable
 
   mount_uploader :avatar, AvatarUploader
 
