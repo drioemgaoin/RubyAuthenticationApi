@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.2.2
+sudo: false
+script:
+  - export RAILS_ENV=test
+  - bundle exec rake --trace db:migrate test
+notifications:
+  email: false
