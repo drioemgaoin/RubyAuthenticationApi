@@ -1,3 +1,7 @@
+# After generating bundle install don't forget to follow the following steps before checkin
+# - Remove -x86-mingw32 by empty string
+# - Change the PLATFORMS to be ruby
+
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
