@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  post :sign_in, to: 'auth#sign_in'
-  post :sign_up, to: 'auth#sign_up'
+  post :sign_in, to: 'authentication#sign_in'
+  post :sign_up, to: 'authentication#sign_up'
   post '/:provider', to: 'auth#authenticate', :constraints => { :provider => /[facebook|google]/ }
 
   get 'reset/:email', to: 'password#reset', :constraints => { :email => /.*/ }
-  post 'reset', to: 'password#reset_post'
+  post :reset, to: 'password#reset_post'
 
-  post 'lock', to: 'lock#lock'
-  post 'unlock', to: 'lock#unlock'
+  post :lock, to: 'lock#lock'
+  post :unlock, to: 'lock#unlock'
 
   get '/api' => redirect('/swagger/dist/index.html?url=/apidocs')
   resources :apidocs, only: [:index]

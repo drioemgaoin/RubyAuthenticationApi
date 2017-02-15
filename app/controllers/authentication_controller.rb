@@ -1,4 +1,4 @@
-class AuthController < ApplicationController
+class AuthenticationController < ApplicationController
   include Swagger::Blocks
 
   swagger_path '/sign_in' do

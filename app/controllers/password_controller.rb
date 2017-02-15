@@ -9,7 +9,7 @@ class PasswordController < ApplicationController
         'application/json'
      ]
      key :tags, [
-       'Reset Password'
+       'Password'
      ]
      parameter do
        key :name, :email
@@ -42,7 +42,7 @@ class PasswordController < ApplicationController
         'application/json'
      ]
      key :tags, [
-       'Reset Password'
+       'Password'
      ]
      parameter do
        key :name, "user[reset_password_token]"

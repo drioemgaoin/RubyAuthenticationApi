@@ -9,7 +9,7 @@ class LockController < ApplicationController
         'application/json'
      ]
      key :tags, [
-       'Lock/Unlock Account'
+       'Account'
      ]
      parameter do
        key :name, 'user[email]'
@@ -42,7 +42,7 @@ class LockController < ApplicationController
         'application/json'
      ]
      key :tags, [
-       'Lock/Unlock Account'
+       'Account'
      ]
      parameter do
        key :name, 'user[unlock_token]'
