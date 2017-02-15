@@ -61,6 +61,32 @@ module Api
   mattr_accessor :password_length
   @@password_length = 6..128
 
+  # Number of authentication tries before locking an account
+  mattr_accessor :maximum_attempts
+  @@maximum_attempts = 20
+
+  # Defines which strategy can be used to lock an account.
+  # Values: :failed_attempts, :none
+  mattr_accessor :lock_strategy
+  @@lock_strategy = :failed_attempts
+
+  # Defines which strategy can be used to unlock an account.
+  # Values: :email, :time, :both
+  mattr_accessor :unlock_strategy
+  @@unlock_strategy = :both
+
+  # Time interval to unlock the account if :time is defined as unlock_strategy.
+  mattr_accessor :unlock_in
+  @@unlock_in = 1.hour
+
+  # Defines which key will be used when locking and unlocking an account
+  mattr_accessor :unlock_keys
+  @@unlock_keys = [:email]
+
+  # When true, warn user if they just used next-to-last attempt of authentication
+  mattr_accessor :last_attempt_warning
+  @@last_attempt_warning = true
+
   # Constants which holds devise configuration for extensions. Those should
   # not be modified by the "end user" (this is why they are constants).
   ALL         = []

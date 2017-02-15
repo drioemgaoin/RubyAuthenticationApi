@@ -15,6 +15,7 @@ en:
     validation_failed: "Validation(s) failed"
     email_not_exist: "Email does not exist"
     reset_password_token: "Reset password token failed"
+    unlock_token: "Unlock token failed"
   authentication:
     signed_in: "Signed in successfully."
     signed_out: "Signed out successfully."
@@ -22,3 +23,6 @@ en:
   password:
     reset_password_token: "Reset Password token sent successfully"
     reset_password: "Password is reset successfully"
+  lock:
+    unlock_token: "Unlock token sent successfully"
+    unlock: "Account is unlocked successfully"

@@ -85,15 +85,15 @@ class PasswordController < ApplicationController
   end
 
   def reset
-    reset_password_token = User.send_reset_password_token({ email: params[:email] })
+    unlock_token = User.send_reset_password_token({ email: params[:email] })
 
-    if !reset_password_token.nil?
+    if !unlock_token.nil?
       render json: {
-        reset_password_token: reset_password_token,
-        message: I18n.t("password.reset_password_token")
+        unlock_token: unlock_token,
+        message: I18n.t("lock.unlock_token")
       }
     else
-      render_error I18n.t("failure.reset_password_token", provider: params[:provider])
+      render_error I18n.t("failure.unlock_token", provider: params[:provider])
     end
   end
 

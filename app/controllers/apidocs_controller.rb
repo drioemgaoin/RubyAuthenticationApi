@@ -32,6 +32,7 @@ class ApidocsController < ActionController::Base
   SWAGGERED_CLASSES = [
     AuthController,
     PasswordController,
+    LockController,
     User,
     ErrorModel,
     self,

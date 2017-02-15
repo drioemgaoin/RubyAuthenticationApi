@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'reset/:email', to: 'password#reset', :constraints => { :email => /.*/ }
   post 'reset', to: 'password#reset_post'
 
+  post 'lock/:email', to: 'lock#lock', :constraints => { :email => /.*/ }
+
   get '/api' => redirect('/swagger/dist/index.html?url=/apidocs')
   resources :apidocs, only: [:index]
 end
