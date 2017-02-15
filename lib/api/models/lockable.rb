@@ -137,6 +137,20 @@ module Api
           nil if !lockable.persisted?
         end
 
+        # Find a user by its unlock token and try to unlock it.
+        # If no user is found, returns a new user with an error.
+        # If the user is not locked, creates an error for the user
+        # Options must have the unlock_token
+        def unlock_access_by_token(attributes={})
+          original_token = attributes[:unlock_token]
+          unlock_token   = Api.token_generator.digest(self, :unlock_token, original_token)
+
+          lockable = find_or_initialize_with_error_by(:unlock_token, unlock_token)
+          lockable.unlock_access! if lockable.persisted?
+          lockable.unlock_token = original_token
+          lockable
+        end
+
         # Is the unlock enabled for the given unlock strategy?
         def unlock_strategy_enabled?(strategy)
           self.unlock_strategy == strategy ||
