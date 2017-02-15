@@ -34,12 +34,10 @@ gem 'swagger-blocks'
 
 # Upload images (avatar)
 gem 'carrierwave'
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 gem 'mini_magick'
 
 # Cloud storage
 gem "fog-dropbox", :git => 'https://github.com/fog/fog-dropbox.git'
-
 gem 'orm_adapter'
 
 group :development, :test do
