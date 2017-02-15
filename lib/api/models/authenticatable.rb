@@ -16,8 +16,12 @@ module Api
         Api::Models.config(self, :authentication_keys, :request_keys, :strip_whitespace_keys,
           :case_insensitive_keys, :params_authenticatable)
 
+        def find_or_initialize_with_error_by(attribute, value, error=:invalid) #:nodoc:
+          find_or_initialize_with_errors([attribute], { attribute => value }, error)
+        end
+
         def find_first_by_auth_conditions(tainted_conditions, opts={})
-          to_adapter.find_first(parameter_filter.filter(tainted_conditions).merge(opts))
+          to_adapter.find_first(api_parameter_filter.filter(tainted_conditions).merge(opts))
         end
 
         def find_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
@@ -43,6 +47,12 @@ module Api
           end
 
           record
+        end
+
+        protected
+
+        def api_parameter_filter
+          @api_parameter_filter ||= Api::ParameterFilter.new(case_insensitive_keys, strip_whitespace_keys)
         end
       end
     end

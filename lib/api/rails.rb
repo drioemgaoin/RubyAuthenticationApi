@@ -3,7 +3,6 @@ module Api
     config.api = Api
 
     initializer "api.secret_key" do |app|
-      puts "RAILS------------------"
       if app.respond_to?(:secrets)
         Api.secret_key ||= app.secrets.secret_key_base
       elsif app.config.respond_to?(:secret_key_base)

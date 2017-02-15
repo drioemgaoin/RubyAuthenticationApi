@@ -22,7 +22,7 @@ module Api
 
       # Resets reset password token and send reset password instructions by email.
       # Returns the token sent in the e-mail.
-      def reset_password_token
+      def send_reset_password_token
         set_reset_password_token
       end
 
@@ -43,9 +43,7 @@ module Api
         end
 
         def set_reset_password_token
-          puts "BEGIN------------------"
           raw, enc = Api.token_generator.generate(self.class, :reset_password_token)
-          puts "END--------------------"
 
           self.reset_password_token   = enc
           self.reset_password_sent_at = Time.now.utc
@@ -72,8 +70,10 @@ module Api
           to_adapter.find_first(reset_password_token: reset_password_token)
         end
 
-        def reset_password_token
-          set_reset_password_token
+        def send_reset_password_token(attributes={})
+          recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
+          return recoverable.send_reset_password_token if recoverable.persisted?
+          nil if !recoverable.persisted?
         end
 
         # Attempt to find a user by its reset_password_token to reset its

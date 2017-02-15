@@ -1,8 +1,8 @@
-require 'rails'
 require 'active_support/dependencies'
 require 'orm_adapter'
 
 module Api
+  autoload :ParameterFilter,    'api/parameter_filter'
   autoload :TokenGenerator,     'api/token_generator'
 
   # Secret key used by the key generator
@@ -31,7 +31,9 @@ module Api
 
   # Stores the token generator
   mattr_accessor :token_generator
-  @@token_generator = nil
+  @@token_generator = Api::TokenGenerator.new(
+    ActiveSupport::CachingKeyGenerator.new(ActiveSupport::KeyGenerator.new(ENV['SECRET_KEY_BASE']))
+  )
 
   # Used to hash the password. Please generate one with rake secret.
   mattr_accessor :pepper
