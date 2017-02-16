@@ -51,6 +51,8 @@ group :development, :test do
 end
 
 group :test do
+  gem "webrat", "0.7.3", require: false
+  gem "mocha", "~> 1.1", require: false
 end
 
 group :development do
