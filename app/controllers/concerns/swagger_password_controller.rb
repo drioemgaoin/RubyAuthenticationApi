@@ -1,4 +1,4 @@
-module SwaggerPassword
+module SwaggerPasswordController
   extend ActiveSupport::Concern
 
   included do

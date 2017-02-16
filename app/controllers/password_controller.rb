@@ -1,5 +1,5 @@
 class PasswordController < ApplicationController
-  include SwaggerPassword
+  include SwaggerPasswordController
 
   def reset
     unlock_token = User.send_reset_password_token({ email: params[:email] })
