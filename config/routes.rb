@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   post :sign_in, to: 'authentication#sign_in'
   post :sign_up, to: 'authentication#sign_up'
-  post '/:provider', to: 'auth#authenticate', :constraints => { :provider => /[facebook|google]/ }
+  post '/:provider', to: 'authentication#authenticate', constraints: { provider: /facebook|google/ }
 
-  get 'reset/:email', to: 'password#reset', :constraints => { :email => /.*/ }
+  get 'reset/:email', to: 'password#reset', constraints: { :email => /.*/ }
   post :reset, to: 'password#reset_post'
 
   post :lock, to: 'lock#lock'
