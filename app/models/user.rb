@@ -24,23 +24,13 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.from_auth(params, current_user)
+  def self.from_auth(params)
     params = params.smash.with_indifferent_access
     authorization = Authorization.find_or_initialize_by(provider: params[:provider], uid: params[:uid])
     if authorization.persisted?
-      if current_user
-        if current_user.id == authorization.user.id
-          user = current_user
-        else
-          return false
-        end
-      else
-        user = authorization.user
-      end
+      user = authorization.user
     else
-      if current_user
-        user = current_user
-      elsif params[:email].present?
+      if params[:email].present?
         user = User.find_or_initialize_by(email: params[:email])
       else
         user = User.new

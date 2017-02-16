@@ -13,9 +13,4 @@ class Token
   def self.encode user_id
     JWT.encode({ user_id: user_id, exp: (DateTime.now + 30).to_i }, ENV['TOKEN_SECRET'], ENV['ALGORITHM'])
   end
-
-  def self.friendly_token(length = 20)
-    rlength = (length * 3) / 4
-    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
-  end
 end

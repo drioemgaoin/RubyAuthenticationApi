@@ -4,6 +4,7 @@ require 'orm_adapter'
 module Api
   autoload :ParameterFilter,    'api/parameter_filter'
   autoload :TokenGenerator,     'api/token_generator'
+  autoload :ParameterSanitizer, 'api/parameter_sanitizer'
 
   # Secret key used by the key generator
   mattr_accessor :secret_key
