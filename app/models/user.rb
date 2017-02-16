@@ -46,7 +46,10 @@ class User < ActiveRecord::Base
     user.provider           = params[:provider]
     user.remote_avatar_url  = params[:image_url]
 
-    user.password = Token.friendly_token[0,10] if user.encrypted_password.blank?
+    user.password = Api.token_generator.friendly_token[0,10] if user.encrypted_password.blank?
+
+    raw, enc = Api.token_generator.generate(User, :access_token)
+    user.access_token = enc
 
     if user.email.blank?
       user.save(validate: false)
@@ -55,7 +58,17 @@ class User < ActiveRecord::Base
     end
     authorization.user_id ||= user.id
     authorization.save
-    user
+    raw
+  end
+
+  def self.sign_in(attributes={})
+    user = User.find_by email: attributes[:email] if attributes[:email].present?
+    return nil if !user || !user.valid_password?(attributes[:password])
+
+    raw, enc = Api.token_generator.generate(User, :access_token)
+    user.access_token = enc
+    user.save(validate: false)
+    raw
   end
 
   def full_errors

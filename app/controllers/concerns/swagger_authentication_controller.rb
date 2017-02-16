@@ -32,7 +32,7 @@ module SwaggerAuthenticationController
        response 200 do
          key :description, 'sign-in response'
          schema do
-           key :token, :string
+           key :access_token, :string
            key :message, :string
          end
        end
@@ -81,7 +81,6 @@ module SwaggerAuthenticationController
        response 200 do
          key :description, 'sign-up response'
          schema do
-           key :token, :string
            key :message, :string
          end
        end

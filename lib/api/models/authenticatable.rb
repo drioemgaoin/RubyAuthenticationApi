@@ -16,24 +16,6 @@ module Api
         Api::Models.config(self, :authentication_keys, :request_keys, :strip_whitespace_keys,
           :case_insensitive_keys, :params_authenticatable)
 
-        def sign_up(attributes={})
-          raw, enc = Api.token_generator.generate(User, :access_token)
-          User.create attributes.merge({ access_token: enc })
-        end
-
-        def sign_in(attributes={})
-          user = User.find_by email: attributes[:email] if attributes[:email].present?
-
-          if user && user.valid_password?(attributes[:password])
-            raw, enc = Api.token_generator.generate(User, :access_token)
-            user.access_token = enc
-            user.save(validate: false)
-            return user
-          end
-
-          nil
-        end
-
         def find_or_initialize_with_error_by(attribute, value, error=:invalid)
           find_or_initialize_with_errors([attribute], { attribute => value }, error)
         end

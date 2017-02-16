@@ -2,20 +2,20 @@ class AuthenticationController < ApplicationController
   include SwaggerAuthenticationController
 
   def sign_up
-    user = User.sign_up sign_up_params
+    user = User.create sign_up_params
 
     if user.persisted?
-      render json: { token: user.access_token, message: I18n.t("authentication.signed_up") }
+      render json: { message: I18n.t("authentication.signed_up") }
     else
       render_error user.full_errors, :unprocessable_entity
     end
   end
 
   def sign_in
-    user = User.sign_in sign_in_params
-    
-    if user
-      render json: { token: user.access_token, message: I18n.t("authentication.signed_in") }
+    access_token = User.sign_in sign_in_params
+
+    if access_token
+      render json: { access_token: access_token, message: I18n.t("authentication.signed_in") }
     else
       render_error I18n.t("failure.signed_in_invalid"), :unprocessable_entity
     end
@@ -24,9 +24,9 @@ class AuthenticationController < ApplicationController
   def authenticate
     oauth = "Oauth::#{params['provider'].titleize}".constantize.new(params)
     if oauth.authorized?
-      user = User.from_auth(oauth.formatted_user_data)
-      if user
-        render_success(token: Token.encode(user.id), id: user.id, message: I18n.t("authentication.signed_in"))
+      access_token = User.from_auth(oauth.formatted_user_data)
+      if access_token
+        render_success(access_token: access_token, message: I18n.t("authentication.signed_in"))
       else
         render_error I18n.t("failure.account_already_used", provider: params[:provider])
       end
