@@ -12,11 +12,10 @@ class AuthenticationController < ApplicationController
   end
 
   def sign_in
-    parameters = sign_in_params
-    user = User.find_by email: parameters[:email] if parameters[:email].present?
-
-    if user && user.valid_password?(parameters[:password])
-      render json: { token: Token.encode(user.id), message: I18n.t("authentication.signed_in") }
+    user = User.sign_in sign_in_params
+    
+    if user
+      render json: { token: user.access_token, message: I18n.t("authentication.signed_in") }
     else
       render_error I18n.t("failure.signed_in_invalid"), :unprocessable_entity
     end
