@@ -21,11 +21,6 @@ module Api
       end
     end
 
-    def friendly_token(length = 20)
-      rlength = (length * 3) / 4
-      SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
-    end
-
     private
 
     def key_for(column)

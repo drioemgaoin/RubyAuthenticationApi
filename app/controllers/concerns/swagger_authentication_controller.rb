@@ -107,7 +107,7 @@ module SwaggerAuthenticationController
          key :name, "access_token"
          key :in, :formData
          key :description, 'Access token'
-         key :required, true
+         key :required, false
          key :type, :string
          key :format, :string
        end
@@ -141,7 +141,7 @@ module SwaggerAuthenticationController
          key :name, "access_token"
          key :in, :formData
          key :description, 'Access token'
-         key :required, true
+         key :required, false
          key :type, :string
          key :format, :string
        end
