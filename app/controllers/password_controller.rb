@@ -28,6 +28,6 @@ class PasswordController < ApplicationController
 
   private
   def reset_params
-    params.require(:user).permit(:reset_password_token, :password, :password_confirmation)
+    api_parameter_sanitizer.sanitize(:reset)
   end
 end

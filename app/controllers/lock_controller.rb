@@ -27,10 +27,10 @@ class LockController < ApplicationController
   end
 
   def lock_params
-    params.require(:user).permit(:email)
+    api_parameter_sanitizer.sanitize(:lock)
   end
 
   def unlock_params
-    params.require(:user).permit(:unlock_token)
+    api_parameter_sanitizer.sanitize(:unlock)
   end
 end

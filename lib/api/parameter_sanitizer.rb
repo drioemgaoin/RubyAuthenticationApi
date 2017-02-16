@@ -3,6 +3,9 @@ module Api
    DEFAULT_PERMITTED_ATTRIBUTES = {
      sign_in: [:password],
      sign_up: [:password, :password_confirmation],
+     reset: [:reset_password_token, :password, :password_confirmation],
+     lock: [],
+     unlock: [:unlock_token],
    }
 
    def initialize(resource_class, resource_name, params)
@@ -59,8 +62,8 @@ module Api
        @permitted[action].concat(keys)
      end
 
+     @permitted[action] ||= @auth_keys.dup
      if except.present?
-       @permitted[action] ||= @auth_keys.dup
        @permitted[action] = @permitted[action] - except
      end
    end
