@@ -2,10 +2,10 @@ class AuthenticationController < ApplicationController
   include SwaggerAuthenticationController
 
   def sign_up
-    user = User.create sign_up_params
+    user = User.sign_up sign_up_params
 
     if user.persisted?
-      render json: { token: Token.encode(user.id), message: I18n.t("authentication.signed_up") }
+      render json: { token: user.access_token, message: I18n.t("authentication.signed_up") }
     else
       render_error user.full_errors, :unprocessable_entity
     end
