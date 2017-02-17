@@ -4,6 +4,8 @@ class UserController < ApplicationController
   def get
     users = User.all.map{|u| {
       :email => u.email,
+      :first_name => u.first_name,
+      :last_name => u.last_name,
       :avatar => get_avatar_urls(u.avatar)
     }}
 

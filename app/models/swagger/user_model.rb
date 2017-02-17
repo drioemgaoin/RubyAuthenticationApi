@@ -7,6 +7,12 @@ module Swagger
       property :email do
         key :type, :string
       end
+      property :first_name do
+        key :type, :string
+      end
+      property :last_name do
+        key :type, :string
+      end
       property :avatar do
         key :'$ref', :AvatarModel
       end
