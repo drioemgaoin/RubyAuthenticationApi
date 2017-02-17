@@ -30,14 +30,18 @@ module SwaggerAuthenticationController
          key :format, :password
        end
        response 200 do
-         key :description, 'sign-in response'
+         key :description, 'Sign-in response'
          schema do
-           key :access_token, :string
-           key :message, :string
+           property :access_token do
+             key :type, :string
+           end
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end
@@ -79,13 +83,15 @@ module SwaggerAuthenticationController
          key :format, :password
        end
        response 200 do
-         key :description, 'sign-up response'
+         key :description, 'Sign-up response'
          schema do
-           key :message, :string
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end
@@ -112,14 +118,18 @@ module SwaggerAuthenticationController
          key :format, :string
        end
        response 200 do
-         key :description, 'sign-in via facebook response'
+         key :description, 'Sign-in via facebook response'
          schema do
-           key :token, :string
-           key :message, :string
+           property :access_token do
+             key :type, :string
+           end
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end
@@ -146,14 +156,18 @@ module SwaggerAuthenticationController
          key :format, :string
        end
        response 200 do
-         key :description, 'sign-in via google response'
+         key :description, 'Sign-in via google response'
          schema do
-           key :token, :string
-           key :message, :string
+           property :access_token do
+             key :type, :string
+           end
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end

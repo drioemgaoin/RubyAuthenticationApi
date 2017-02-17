@@ -15,13 +15,13 @@ module SwaggerUserController
          'User'
        ]
        response 200 do
-         key :description, 'user response'
+         key :description, 'User response'
          schema do
            key :'$ref', :UsersModel
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end
