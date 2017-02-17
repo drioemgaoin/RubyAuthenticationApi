@@ -17,6 +17,7 @@ en:
     reset_password_token: "Reset password token failed"
     unlock_failed: "Unlock account failed"
     lock_failed: "Lock account failed"
+    user_profiles: "User's profile failed"
   authentication:
     signed_in: "Signed in successfully."
     signed_out: "Signed out successfully."
@@ -27,3 +28,5 @@ en:
   lock:
     unlock: "Account is unlocked successfully"
     lock: "Account is locked successfully"
+  user:
+    profiles: "User's profile got successfully"

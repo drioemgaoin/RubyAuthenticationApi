@@ -10,10 +10,10 @@ class UserController < ApplicationController
     if users
       render json: {
         users: users,
-        message: I18n.t("lock.unlock_token")
+        message: I18n.t("user.profiles")
       }
     else
-      render_error I18n.t("failure.unlock_token", provider: params[:provider])
+      render_error I18n.t("failure.user_profiles", provider: params[:provider])
     end
   end
 
