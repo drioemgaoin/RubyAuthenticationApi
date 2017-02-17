@@ -33,7 +33,9 @@ class ApidocsController < ActionController::Base
     AuthenticationController,
     PasswordController,
     LockController,
+    UserController,
     User,
+    UserModel,
     ErrorModel,
     self,
   ].freeze
