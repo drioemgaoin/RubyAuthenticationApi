@@ -2,15 +2,15 @@ class PasswordController < ApplicationController
   include SwaggerPasswordController
 
   def reset
-    unlock_token = User.send_reset_password_token({ email: params[:email] })
+    reset_password_token = User.send_reset_password_token({ email: params[:email] })
 
-    if !unlock_token.nil?
+    if !reset_password_token.nil?
       render json: {
-        unlock_token: unlock_token,
-        message: I18n.t("lock.unlock_token")
+        reset_password_token: reset_password_token,
+        message: I18n.t("lock.reset_password_token")
       }
     else
-      render_error I18n.t("failure.unlock_token", provider: params[:provider])
+      render_error I18n.t("failure.reset_password_token", provider: params[:provider])
     end
   end
 

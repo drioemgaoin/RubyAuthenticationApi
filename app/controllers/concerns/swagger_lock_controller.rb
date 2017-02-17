@@ -22,14 +22,18 @@ module SwaggerLockController
          key :type, :string
        end
        response 200 do
-         key :description, 'lock account response'
+         key :description, 'Lock account response'
          schema do
-           key :unlock_token, :string
-           key :message, :string
+           property :unlock_token do
+             key :type, :string
+           end
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end
@@ -55,13 +59,15 @@ module SwaggerLockController
          key :type, :string
        end
        response 200 do
-         key :description, 'unlock account response'
+         key :description, 'Unlock account response'
          schema do
-           key :message, :string
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end

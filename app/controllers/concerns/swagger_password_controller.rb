@@ -22,7 +22,7 @@ module SwaggerPasswordController
          key :type, :string
        end
        response 200 do
-         key :description, 'reset password token response'
+         key :description, 'Reset password token response'
          schema do
            property :reset_password_token do
              key :type, :string
@@ -76,14 +76,15 @@ module SwaggerPasswordController
          key :format, :password
        end
        response 200 do
-         key :description, 'sign-up response'
+         key :description, 'Reset password response'
          schema do
-           key :token, :string
-           key :message, :string
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
-         key :description, 'unexpected error'
+         key :description, 'Unexpected error'
          schema do
            key :'$ref', :ErrorModel
          end
