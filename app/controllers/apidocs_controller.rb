@@ -35,8 +35,10 @@ class ApidocsController < ActionController::Base
     LockController,
     UserController,
     User,
-    UserModel,
-    ErrorModel,
+    Swagger::UserModel,
+    Swagger::UsersModel,
+    Swagger::AvatarModel,
+    Swagger::ErrorModel,
     self,
   ].freeze
 
