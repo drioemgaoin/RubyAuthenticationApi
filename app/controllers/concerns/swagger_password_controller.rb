@@ -24,8 +24,12 @@ module SwaggerPasswordController
        response 200 do
          key :description, 'reset password token response'
          schema do
-           key :reset_password_token, :string
-           key :message, :string
+           property :reset_password_token do
+             key :type, :string
+           end
+           property :message do
+             key :type, :string
+           end
          end
        end
        response :default do
