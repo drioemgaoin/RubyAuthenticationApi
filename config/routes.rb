@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post :unlock, to: 'lock#unlock'
 
   get '/user', to: 'user#get'
+  get '/user/:id', to: 'user#get'
 
   get '/api' => redirect('/swagger/dist/index.html?url=/apidocs')
   resources :apidocs, only: [:index]

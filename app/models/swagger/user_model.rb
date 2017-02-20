@@ -3,7 +3,10 @@ module Swagger
     include Swagger::Blocks
 
     swagger_schema :UserModel do
-      key :required, [:email, :avatar]
+      key :required, [:id, :email, :first_name, :last_name, :avatar]
+      property :id do
+        key :type, :integer
+      end
       property :email do
         key :type, :string
       end
