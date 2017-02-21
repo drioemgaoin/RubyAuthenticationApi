@@ -79,6 +79,12 @@ class User < ActiveRecord::Base
     self.display_name = name
   end
 
+  def as_json(options={})
+    h = super(:only => [:id, :email, :first_name, :last_name])
+    h[:avatar] = get_avatar_urls
+    h
+  end
+
   protected
     def parameter_filter
       @parameter_filter ||= ParameterFilter.new(case_insensitive_keys, strip_whitespace_keys)
@@ -87,5 +93,14 @@ class User < ActiveRecord::Base
   private
     def avatar_size_validation
       errors[:avatar] << "should be less than 500KB" if avatar.size > 0.5.megabytes
+    end
+
+    def get_avatar_urls
+      {
+        :url => self.avatar.url,
+        :thumb => self.avatar.url(:thumb),
+        :small => self.avatar.url(:small),
+        :medium => self.avatar.url(:medium)
+      }
     end
 end
