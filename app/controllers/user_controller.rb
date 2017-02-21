@@ -5,7 +5,7 @@ class UserController < ApplicationController
     users = User.all
 
     if users
-      render json: users
+      render json: users, :root => false
     else
       render_error I18n.t("failure.user_profile", provider: params[:provider])
     end
