@@ -37,6 +37,7 @@ else
     }
     config.fog_directory  = 'RubyLoginComponent'
     config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" }
+    config.fog_public = true;
   end
 
 end

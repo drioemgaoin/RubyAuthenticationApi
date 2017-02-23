@@ -20,4 +20,8 @@
 # Ignore Byebug command history file.
 .byebug_history
 
+# Ignore figaro configuration file
 .application.yml
+
+# Ignore CarrierWare temporary files
+public/upload/*

@@ -95,12 +95,23 @@ class User < ActiveRecord::Base
       errors[:avatar] << "should be less than 500KB" if avatar.size > 0.5.megabytes
     end
 
+    def avatar_img(size)
+      if self.avatar?
+         "#{ENV['BASE_URL']}/#{self.avatar.store_dir}/#{size}_#{self.avatar_identifier}"
+      else
+        nil
+      end
+    end
+
     def get_avatar_urls
+      puts self.avatar.base_path
+      puts self.avatar.root
+      puts self.avatar.store_dir
       {
-        :url => self.avatar.url,
-        :thumb => self.avatar.url(:thumb),
-        :small => self.avatar.url(:small),
-        :medium => self.avatar.url(:medium)
+        # :url => self.avatar.url,
+        :thumb => avatar_img(:thumb)
+        # :small => self.avatar.url(:small),
+        # :medium => self.avatar.url(:medium)
       }
     end
 end
