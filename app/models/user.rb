@@ -104,14 +104,11 @@ class User < ActiveRecord::Base
     end
 
     def get_avatar_urls
-      puts self.avatar.base_path
-      puts self.avatar.root
-      puts self.avatar.store_dir
       {
-        # :url => self.avatar.url,
-        :thumb => avatar_img(:thumb)
-        # :small => self.avatar.url(:small),
-        # :medium => self.avatar.url(:medium)
+        :url => self.avatar.url,
+        :thumb => self.avatar.url(:thumb)
+        :small => self.avatar.url(:small),
+        :medium => self.avatar.url(:medium)
       }
     end
 end
