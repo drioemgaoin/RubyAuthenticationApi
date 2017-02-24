@@ -21,7 +21,7 @@
 .byebug_history
 
 # Ignore figaro configuration file
-.application.yml
+application.yml
 
 # Ignore CarrierWare temporary files
-public/upload/*
+public/uploads/*

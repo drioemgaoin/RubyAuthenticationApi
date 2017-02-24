@@ -106,7 +106,7 @@ class User < ActiveRecord::Base
     def get_avatar_urls
       {
         :url => self.avatar.url,
-        :thumb => self.avatar.url(:thumb)
+        :thumb => self.avatar.url(:thumb),
         :small => self.avatar.url(:small),
         :medium => self.avatar.url(:medium)
       }
