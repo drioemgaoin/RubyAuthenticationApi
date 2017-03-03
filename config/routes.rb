@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/user', to: 'user#get_all'
   get '/user/:id', to: 'user#get'
 
-  get '/api' => redirect('/swagger/dist/index.html?url=/apidocs')
   resources :apidocs, only: [:index]
+
+  root "api#index"
 end
