@@ -3,7 +3,7 @@ module Swagger
     include Swagger::Blocks
 
     swagger_schema :UsersModel do
-      key :required, :users
+      key :required, [:users]
       property :users do
         key :type, :array
         items do
