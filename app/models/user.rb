@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   api :database_authenticatable, :recoverable, :validatable,
     :lockable
 
+  after_commit :add_avatar_url_to_user, on: :create
+
   mount_uploader :avatar, AvatarUploader
 
   validates_integrity_of  :avatar
@@ -95,20 +97,19 @@ class User < ActiveRecord::Base
       errors[:avatar] << "should be less than 500KB" if avatar.size > 0.5.megabytes
     end
 
-    def avatar_img(size)
-      if self.avatar?
-         "#{ENV['BASE_URL']}/#{self.avatar.store_dir}/#{size}_#{self.avatar_identifier}"
-      else
-        nil
-      end
+    def add_avatar_url_to_user
+      self.update_column(:avatar_url, self.avatar.url)
+      self.update_column(:avatar_thumb_url, self.avatar.url(:thumb))
+      self.update_column(:avatar_small_url, self.avatar.url(:small))
+      self.update_column(:avatar_medium_url, self.avatar.url(:medium))
     end
 
     def get_avatar_urls
       {
-        :url => self.avatar.url,
-        :thumb => self.avatar.url(:thumb),
-        :small => self.avatar.url(:small),
-        :medium => self.avatar.url(:medium)
+        :url => self.avatar_url,
+        :thumb => self.avatar_thumb_url,
+        :small => self.avatar_small_url,
+        :medium => self.avatar_medium_url
       }
     end
 end

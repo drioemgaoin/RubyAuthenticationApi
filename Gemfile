@@ -41,6 +41,7 @@ gem 'mini_magick'
 
 # Cloud storage
 gem "fog-dropbox", :git => 'https://github.com/fog/fog-dropbox.git'
+
 gem 'orm_adapter'
 
 group :development, :test do
